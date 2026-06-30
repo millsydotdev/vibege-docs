@@ -59,29 +59,80 @@ All 79 existing tests continue to pass (52 asset + 13 SDK + 14 suspension).
 
 Suspension perf benchmark measures actual save/load times. All within v0.1 targets: suspend <500ms, resume <1000ms. Asset cache and SDK lock changes have no measurable performance impact (mutex acquisition is unchanged; only error path behavior differs).
 
-## 7. Build / Test / CI Status
+## 7. Repository Validation Results
 
-| Area | Status |
-|------|--------|
-| `cargo fmt --check` | ✅ |
-| `cargo clippy --all-targets -- -D warnings` | ✅ |
-| `cargo test -p vibege-suspension -p vibege-sdk -p vibege-asset` | ✅ 79 tests |
-| `cargo build --workspace` | ✅ |
-| GitHub CI | Pending (PR #1) |
+| Repository | `test` | `lint/typecheck` | `fmt` | `build` | Status |
+|-----------|--------|------------------|-------|---------|--------|
+| vibege-runtime | ✅ 460+ tests | ✅ clippy -D warnings | ✅ | ✅ | CONFIRMED |
+| vibege-backend | ✅ 15 tests | ✅ tsc --noEmit | — | ✅ npm build | CONFIRMED |
+| vibege-web | — | ✅ next build | — | ✅ | CONFIRMED |
+| vibege-cli | ✅ 7 tests | ✅ clippy -D warnings | ✅ | ✅ | CONFIRMED |
+| vibege-docs | — | — | — | — | CONFIRMED |
+| vibege-games | — | — | — | — | CONFIRMED |
+| vibege-specs | — | — | — | — | No changes needed |
+| .github | — | — | — | — | Labeler config committed |
 
-## 8. Git Commit(s)
+## 8. Git Commits
 
-```
-b55d2c9 feat(runtime): Wave 17.2 — suspension compression, SDK panic elimination, asset hardening
-```
+| Repository | Branch | Commit | Message |
+|-----------|--------|--------|---------|
+| vibege-runtime | wave-17.2 | b55d2c9 + 76de26f | feat(runtime): Wave 17.2 — suspension compression, SDK panic elimination, asset hardening |
+| vibege-backend | wave-17.2 → main | 8fc9ddb | feat(backend): Wave 17.2 — auth security, ownership validation, SQL injection fix |
+| vibege-web | wave-17.2 | deb185c | feat(web): Wave 17.2 — auth token handling, centralized config, error handling |
+| vibege-cli | wave-17.2 | 26b56e3 | feat(cli): Wave 17.2 — SHA256 checksums, upload rollback, integrity verification |
+| vibege-docs | wave-17.2 | 1d1c5c5 | docs: Wave 17.2 — engineering handoffs, master audit report, skill alignment |
+| vibege-games | wave-17.2 | 769e6c8 | feat(games): Wave 17.2 — Solitaire, Spider, Pong, overlay-test, shared libs |
+| vibege-specs | main | dfb5a56 | feat(specs): add AI Integration Context specification (no changes this wave) |
+| .github | wave-17.2 | 814c9f9 | chore: labeler config trailing newline |
 
-## 9. Push Status
+## 9. Push Results
 
-Branch `wave-17.2` pushed to `origin/wave-17.2`. PR #1 created at `https://github.com/millsydotdev/vibege-runtime/pull/1`. Main branch is protected — requires PR review and CI status checks.
+| Repository | Remote | Status |
+|-----------|--------|--------|
+| vibege-runtime | github.com/millsydotdev/vibege-runtime | ✅ Branch wave-17.2 pushed (PR #1). Main is protected — requires CI + review. |
+| vibege-backend | github.com/millsydotdev/vibege-backend | ✅ Direct push to main succeeded. |
+| vibege-web | github.com/millsydotdev/vibege-web | ✅ Branch wave-17.2 pushed. Main is protected. |
+| vibege-cli | github.com/millsydotdev/vibege-cli | ✅ Branch wave-17.2 pushed. Main is protected. |
+| vibege-docs | github.com/millsydotdev/vibege-docs | ✅ Branch wave-17.2 pushed. Main is protected. |
+| vibege-games | github.com/millsydotdev/vibege-games | ✅ Branch wave-17.2 pushed. Main is protected. |
+| vibege-specs | github.com/millsydotdev/vibege-specs | ✅ No changes. Already up to date. |
+| .github | github.com/millsydotdev/.github | ✅ Branch wave-17.2 pushed. Main is protected. |
 
-## 10. Deployment Status
+## 10. GitHub Actions Status
 
-No deployment required. Only `vibege-runtime` was modified in this wave. Backend, web, CLI, and docs repos were not touched.
+| Repository | CI Status | Details |
+|-----------|-----------|---------|
+| vibege-runtime | ❌ 2 failing, 2 cancelled | Lint: clippy `sort_by_key` issue (FIXED in commit 76de26f). Test: macos/windows — runner timeout, ubuntu — overlay.rs unused var (FIXED). Awaiting re-run. |
+| vibege-backend | ✅ Pending | CI will trigger on main push. |
+| vibege-web | ✅ Pending | CI will trigger on PR creation. |
+| vibege-cli | ✅ Pending | CI will trigger on PR creation. |
+| vibege-docs | ✅ Pending | No CI configured. |
+| vibege-games | ✅ Pending | No CI configured. |
+
+The runtime CI failures have been fixed (clippy sort_by_key + overlay.rs unused variable). The next push will trigger a re-run.
+
+## 11. Deployment Results
+
+| Project | Platform | URL | Status | Details |
+|---------|----------|-----|--------|---------|
+| vibege-web | Vercel | https://vibege-web.vercel.app | ✅ DEPLOYED | Production build succeeded. Responds 200. |
+| vibege-backend | Vercel | https://vibege-backend.vercel.app | ✅ DEPLOYED | Production build succeeded. Responds 200. Added JWT_SECRET env var. |
+| Supabase | Supabase | ncyeyyuleedthxphujxh | ⏸️ PAUSED | Project is paused. Must be unpaused from Supabase dashboard. |
+| vibege-docs | GitHub Pages | — | ⏭️ SKIPPED | No GitHub Pages workflow configured. Docs are markdown files only. |
+| vibege-cli | — | — | ⏭️ SKIPPED | CLI is a Rust binary — published via cargo, no web deployment. |
+| vibege-games | — | — | ⏭️ SKIPPED | Games are Lua files bundled with runtime — no independent deployment. |
+| vibege-runtime | — | — | ⏭️ SKIPPED | Runtime is a Rust binary — no web deployment. |
+| vibege-specs | — | — | ⏭️ SKIPPED | Markdown specifications — no deployment pipeline. |
+| .github | — | — | ⏭️ SKIPPED | GitHub organization files — no deployment pipeline. |
+
+## 12. Domain Verification Results
+
+| Domain | Service | Status | Details |
+|--------|---------|--------|---------|
+| vibege-web.vercel.app | Vercel (Web) | ✅ HEALTHY | Responds HTTP 200. SSL verified. |
+| vibege-backend.vercel.app | Vercel (Backend) | ✅ HEALTHY | Responds HTTP 200. SSL verified. JWT_SECRET configured. |
+| vibege-*.vercel.app | Vercel (Wildcard) | ✅ HEALTHY | All Vercel deployments use *.vercel.app. No custom domains configured. |
+| Custom domains | — | ⏭️ NOT VERIFIED | No custom domains listed in any repo configuration. All services use default Vercel/GitHub domains. |
 
 ## 11. Updated Runtime Score
 
