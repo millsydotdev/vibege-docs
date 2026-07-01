@@ -1,15 +1,30 @@
 # vibege-docs
 
-Documentation - guides, API reference, tutorials, architecture docs
+Documentation for the VibeGE platform.
 
-## Overview
+## Contents
 
-This repository is part of the [VibeGE](https://github.com/millsydotdev) ecosystem.
+### User-Facing Guides
+- [Getting Started](src/guides/getting-started.md) — Create your first VibeGE project
+- [Publishing Guide](src/guides/publishing.md) — Package and publish your game
+- [SDK API Reference](src/guides/sdk-api.md) — Complete Lua API documentation
 
-## Development
+### Engineering Documents
+- Engineering wave handoffs (19 documents)
+- Production sprint reports (10 documents)
+- Master engineering audit and report
+- Skill alignment report
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for setup instructions.
+## Planned Sections
+
+| Directory | Status |
+|-----------|--------|
+| `src/guides/` | 3 guides (2 need updates) |
+| `src/api/` | Not yet written |
+| `src/architecture/` | Not yet written |
+| `src/tutorials/` | Not yet written |
+| `src/reference/` | Not yet written |
 
 ## License
 
-MIT License � see [LICENSE](LICENSE) for details.
+MIT
